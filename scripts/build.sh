@@ -2,6 +2,9 @@
 cd "$(dirname "$0")"
 cd ..
 
+# exit when any command fails
+set -e
+
 VERSION=$(node -p "require('./package.json').version")
 DESCRIPTION=$(node -p "require('./package.json').description")
 

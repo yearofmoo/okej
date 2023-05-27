@@ -10,6 +10,7 @@
   "scripts": {
     "test": "vitest",
     "build": "./scripts/build.sh",
+    "publish-to-npm": "./scripts/deploy.sh",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
