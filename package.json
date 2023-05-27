@@ -1,16 +1,30 @@
 {
   "name": "okok",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "A bare-metal Result type for Javascript/TypeScript",
+  "author": "Matias Niemelä <matias@yearofmoo.com> (http://www.yearofmoo.com)",
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/yearofmoo/okok"
+  },
   "scripts": {
     "test": "vitest",
+    "build": "./scripts/build.sh",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "keywords": [
+    "result",
+    "okok",
+    "ok",
+    "err",
+    "rust",
+    "ok-err",
+    "error",
+    "error-handling",
+    "exceptions"
+  ],
   "dependencies": {
     "prettier": "^2.8.8",
     "typescript": "^5.0.4",

@@ -1,0 +1,30 @@
+{
+  "name": "okok",
+  "version": "VERSION",
+  "description": "DESCRIPTION",
+  "author": "Matias Niemelä <matias@yearofmoo.com> (http://www.yearofmoo.com)",
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/yearofmoo/okok"
+  },
+  "exports": {
+    "types": "./index.d.ts",
+    "require": "./cjs/index.js",
+    "import": "./esm/index.js"
+  },
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "types": "./index.d.ts",
+  "keywords": [
+    "result",
+    "okok",
+    "ok",
+    "err",
+    "rust",
+    "ok-err",
+    "error",
+    "error-handling",
+    "exceptions"
+  ],
+  "license": "MIT"
+}
