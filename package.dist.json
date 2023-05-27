@@ -1,11 +1,11 @@
 {
-  "name": "okok",
+  "name": "okej",
   "version": "VERSION",
   "description": "DESCRIPTION",
   "author": "Matias Niemelä <matias@yearofmoo.com> (http://www.yearofmoo.com)",
   "repository": {
     "type": "git",
-    "url": "https://www.github.com/yearofmoo/okok"
+    "url": "https://www.github.com/yearofmoo/okej"
   },
   "exports": {
     "types": "./index.d.ts",
@@ -17,7 +17,7 @@
   "types": "./index.d.ts",
   "keywords": [
     "result",
-    "okok",
+    "okej",
     "ok",
     "err",
     "rust",

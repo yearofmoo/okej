@@ -1,6 +1,6 @@
-# okok
+# okej
 
-`okok` a bare-metal implemention of `Result` types in JavaScript.
+`okej` a bare-metal implemention of `Result` types in JavaScript.
 
 This library introduces some super simple helper functions so that data and
 errors can easily be passed throughout an application without the need to
@@ -29,7 +29,7 @@ Elm, Kotlin, etc..., but not in JavaScript.
 Here's an example of how they work:
 
 ```ts
-import { ok, err } from "okok";
+import { ok, err } from "okej";
 
 // Ok result (when something is valid)
 const goodResult = ok("data");
@@ -70,19 +70,19 @@ First install it into your project.
 
 ```bash
 # via NPM
-npm install okok
+npm install okej
 
 # or Yarn
-yarn add okok
+yarn add okej
 
 # or PNPM
-pnpm add okok
+pnpm add okej
 ```
 
 Then import it as needed:
 
 ```ts
-import { ok, err, Result } from "okok";
+import { ok, err, Result } from "okej";
 ```
 
 ## Usage
@@ -90,7 +90,7 @@ import { ok, err, Result } from "okok";
 Below is a example of how data is processed
 
 ```ts
-import { ok, err, Result } from "okok";
+import { ok, err, Result } from "okej";
 
 // let's imagine this function is calling some remote operation
 // and will return either a Ok or Err result once complete.
@@ -120,7 +120,7 @@ functions that can be used as well.
 When called, a `Result` object with `ok=true/err=false` will be returned.
 
 ```ts
-import { ok } from "okok";
+import { ok } from "okej";
 
 // with no data
 let okResult = ok();
@@ -140,7 +140,7 @@ console.log(okResult.data.name); // "foo"
 When called, a `Result` object with `ok=false/err=true` will be returned.
 
 ```ts
-import { err } from "okok";
+import { err } from "okej";
 
 // with no data
 let result = err();
@@ -170,7 +170,7 @@ result = err("something broke", 10, { extraData: true }); // result.errMessage/r
 We can also pass in a JavaScript `Error` instance directly:
 
 ```ts
-import { err } from "okok";
+import { err } from "okej";
 
 try {
   //...
@@ -256,7 +256,7 @@ The helper functions below can be used to deal with collections
 of result data.
 
 ```ts
-import { isResult, allOk, allErr, merge } from "okok";
+import { isResult, allOk, allErr, merge } from "okej";
 
 // true if all have ok=true/err=false (false if an empty array)
 allOk(results);
@@ -276,7 +276,7 @@ Note that each of the functions listed in the code example below adhere to
 TypeScript type narrowing as well as assertions.
 
 ```ts
-import { isResult, allOk, allErr, merge } from "okok";
+import { isResult, allOk, allErr, merge } from "okej";
 
 // true if Ok or Err
 isResult(someValue);
@@ -301,7 +301,7 @@ When dealing with a series of result values, the `from` function can be used
 to combine everything together.
 
 ```ts
-import { from } from "okok";
+import { from } from "okej";
 
 const results = [ok(1), ok("yes"), ok({ data: "exists" })];
 
@@ -316,7 +316,7 @@ However if there are any values that are an instance of Err then the `from` func
 will return an Err response.
 
 ```ts
-import { from } from "okok";
+import { from } from "okej";
 
 const results = [ok(1), err("noooo"), err(100)];
 
@@ -386,7 +386,7 @@ As made clear in the example code above, how does one deal with the error progra
 Well using a `Result` object we can clean this up quite a lot.
 
 ```ts
-import {ok, err, Result} from "okok";
+import {ok, err, Result} from "okej";
 
 interface FormError {
 	EmptyUsername,

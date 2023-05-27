@@ -14,7 +14,7 @@ export default async () => {
     build: {
       minify: PROD,
       lib: {
-        name: "okok",
+        name: "okej",
         formats: ["es", "cjs"],
         fileName: (format) =>
           `${format == "es" ? "esm" : "cjs"}/index.${PROD ? "min." : ""}js`,

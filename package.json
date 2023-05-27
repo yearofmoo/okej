@@ -1,11 +1,11 @@
 {
-  "name": "okok",
+  "name": "okej",
   "version": "0.0.1",
   "description": "A bare-metal Result type for Javascript/TypeScript",
   "author": "Matias Niemelä <matias@yearofmoo.com> (http://www.yearofmoo.com)",
   "repository": {
     "type": "git",
-    "url": "https://www.github.com/yearofmoo/okok"
+    "url": "https://www.github.com/yearofmoo/okej"
   },
   "scripts": {
     "test": "vitest",
@@ -17,7 +17,6 @@
   "license": "MIT",
   "keywords": [
     "result",
-    "okok",
     "ok",
     "err",
     "rust",
