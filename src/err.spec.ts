@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { assertResultEquals } from "./testUtils";
 import { err } from "./err";
+import { Err } from "./api";
 
 describe("err()", () => {
   it("should return an Err result when called with nothing", () => {
@@ -14,10 +15,10 @@ describe("err()", () => {
 
   it("should return an Err result when called with null or undefined or boolean value", () => {
     const target = err();
-    expect(err(null)).toEqual(target);
-    expect(err(undefined)).toEqual(target);
-    expect(err(true)).toEqual(target);
-    expect(err(false)).toEqual(target);
+    errIsErr(err(null), target);
+    errIsErr(err(undefined), target);
+    errIsErr(err(true), target);
+    errIsErr(err(false), target);
   });
 
   it("should return an Err result with a number", () => {
@@ -141,3 +142,12 @@ describe("err()", () => {
     expect(err()).not.toHaveProperty("data");
   });
 });
+
+function errIsErr(a: Err, b: Err) {
+  expect(a.ok).toEqual(a.ok);
+  expect(a.err).toEqual(b.err);
+  expect(a.errMessage).toEqual(b.errMessage);
+  expect(a.errCode).toEqual(b.errCode);
+  expect(a.errContext).toEqual(b.errContext);
+  expect(a.errException).toEqual(b.errException);
+}

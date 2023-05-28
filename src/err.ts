@@ -99,6 +99,12 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
     errContext: context,
     errMessage: message,
     errException: exception,
+    get errStack() {
+      if (!this.errException) {
+        this.errException = new Error(this.errMessage);
+      }
+      return this.errException.stack;
+    },
   };
 }
 
