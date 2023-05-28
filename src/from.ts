@@ -4,7 +4,7 @@ import { allOk, isResult } from "./helpers";
 import { ok } from "./ok";
 
 export function from<D extends unknown, R extends Result<D>[]>(
-  results: R
+  results: R,
 ): Ok<D[]> | Err<number, Error, { results: R }> {
   if (allOk(results)) {
     const data = (results as Ok<D>[]).map((r) => {
@@ -26,7 +26,7 @@ export function from<D extends unknown, R extends Result<D>[]>(
 }
 
 export async function fromPromise<D extends unknown>(
-  promise: Promise<D>
+  promise: Promise<D>,
 ): Promise<Result<D>> {
   try {
     const data = await promise;

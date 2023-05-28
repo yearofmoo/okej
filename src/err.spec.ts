@@ -1,7 +1,7 @@
-import { describe, expect, it } from "vitest";
-import { assertResultEquals } from "./testUtils";
-import { err } from "./err";
 import type { Err } from "./api";
+import { err } from "./err";
+import { assertResultEquals } from "./testUtils";
+import { describe, expect, it } from "vitest";
 
 describe("err()", () => {
   it("should return an Err result when called with nothing", () => {
@@ -103,7 +103,7 @@ describe("err()", () => {
         errMessage: "not good",
         errContext: { some: "data" },
         errException: e,
-      }
+      },
     );
   });
 
@@ -120,7 +120,7 @@ describe("err()", () => {
         errMessage: "error123: fail",
         errContext: { some: "data" },
         errException: e,
-      }
+      },
     );
   });
 
@@ -134,7 +134,7 @@ describe("err()", () => {
         errMessage: "",
         errContext: { some: "data" },
         errException: null,
-      }
+      },
     );
   });
 

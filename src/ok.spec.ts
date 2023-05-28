@@ -1,6 +1,6 @@
 import { ok } from "./ok";
-import { describe, expect, it } from "vitest";
 import { assertResultEquals } from "./testUtils";
+import { describe, expect, it } from "vitest";
 
 describe("ok()", () => {
   it("should return an Ok reuslt when called with nothing", () => {

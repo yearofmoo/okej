@@ -29,7 +29,7 @@ Elm, Kotlin, etc..., but not in JavaScript.
 Here's an example of how they work:
 
 ```ts
-import { ok, err } from "okej";
+import { err, ok } from "okej";
 
 // Ok result (when something is valid)
 const goodResult = ok("data");
@@ -82,7 +82,7 @@ pnpm add okej
 Then import it as needed:
 
 ```ts
-import { ok, err, Result } from "okej";
+import { err, ok, Result } from "okej";
 ```
 
 ## Usage
@@ -90,7 +90,7 @@ import { ok, err, Result } from "okej";
 Below is a example of how data is processed
 
 ```ts
-import { ok, err, Result } from "okej";
+import { err, ok, Result } from "okej";
 
 // let's imagine this function is calling some remote operation
 // and will return either a Ok or Err result once complete.
@@ -201,7 +201,7 @@ interface ApiData {
 }
 
 async function callApiUsersServer(
-  url: string
+  url: string,
 ): Promise<Result<ApiData, HttpError>> {
   // call the api server and deal with the error
   try {
@@ -256,7 +256,7 @@ The helper functions below can be used to deal with collections
 of result data.
 
 ```ts
-import { isResult, allOk, allErr, merge } from "okej";
+import { allErr, allOk, isResult, merge } from "okej";
 
 // true if all have ok=true/err=false (false if an empty array)
 allOk(results);
@@ -276,7 +276,7 @@ Note that each of the functions listed in the code example below adhere to
 TypeScript type narrowing as well as assertions.
 
 ```ts
-import { isResult, allOk, allErr, merge } from "okej";
+import { allErr, allOk, isResult, merge } from "okej";
 
 // true if Ok or Err
 isResult(someValue);
@@ -451,8 +451,8 @@ special function/object code is added around result objects.
 
 ```ts
 // somewhere in the backend
-import { ok, err } from "okej";
 import express from "express";
+import { err, ok } from "okej";
 
 const app = express();
 app.get("/users", (req, res) => {

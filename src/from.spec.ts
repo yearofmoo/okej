@@ -1,8 +1,8 @@
-import { describe, expect, it } from "vitest";
-import { ok } from "./ok";
+import { err } from "./err";
 import { from, fromPromise } from "./from";
 import { assertIsErr } from "./helpers";
-import { err } from "./err";
+import { ok } from "./ok";
+import { describe, expect, it } from "vitest";
 
 describe("", () => {
   describe("from()", () => {

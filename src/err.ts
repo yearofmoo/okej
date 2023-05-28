@@ -8,27 +8,27 @@ export function err<N extends number>(errCode: N): Err<N>;
 export function err(errMessage: string): Err;
 export function err<C extends number | string>(
   errMessage: string,
-  errCode: C
+  errCode: C,
 ): Err<C>;
 export function err<X extends { [key: string]: unknown }>(
   errMessage: string,
   errCode: number,
-  errContext: X
+  errContext: X,
 ): Err<number, Error, X>;
 export function err<
   E extends Error,
   N extends number,
-  X extends { [key: string]: unknown }
+  X extends { [key: string]: unknown },
 >(
   e: E | unknown,
   errMessage?: string,
   errCode?: N,
-  errContext?: X
+  errContext?: X,
 ): Err<N, E, X>;
 export function err<
   N extends number,
   E extends Error,
-  X extends { [key: string]: unknown }
+  X extends { [key: string]: unknown },
 >(err: {
   errMessage?: string;
   errCode?: N;

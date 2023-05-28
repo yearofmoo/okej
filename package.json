@@ -28,6 +28,7 @@
     "exceptions"
   ],
   "dependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "prettier": "^2.8.8",
     "vite": "^4.3.9",
     "vitest": "^0.31.1"

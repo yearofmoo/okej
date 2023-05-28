@@ -1,6 +1,6 @@
 export type Result<
   D extends unknown = unknown,
-  C extends number | string = number | string
+  C extends number | string = number | string,
 > = Ok<D> | Err<C>;
 
 export interface Ok<D extends unknown = null> {
@@ -12,7 +12,7 @@ export interface Ok<D extends unknown = null> {
 export interface Err<
   C extends number | string = number | string,
   E extends Error = Error,
-  X extends { [key: string]: unknown } = { [key: string]: unknown }
+  X extends { [key: string]: unknown } = { [key: string]: unknown },
 > {
   ok: false;
   err: true;

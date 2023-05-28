@@ -1,7 +1,7 @@
-import type { Ok, Err, Result } from "./api";
+import type { Err, Ok, Result } from "./api";
 
 export function isOkResult<D extends unknown = unknown>(
-  value: unknown
+  value: unknown,
 ): value is Ok<D> {
   return isResult(value) && value.ok;
 }

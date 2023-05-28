@@ -11,7 +11,7 @@ type OkData<O extends Ok<D> | D, D extends unknown = unknown> = O extends {
 export function ok(): Ok<null>;
 export function ok(value: undefined): Ok<undefined>;
 export function ok<T extends Ok<D>, D extends unknown, ID extends OkData<T>>(
-  data: T
+  data: T,
 ): Ok<ID>;
 export function ok<T extends unknown>(data: T): Ok<T>;
 export function ok(value?: unknown): Ok<unknown> {

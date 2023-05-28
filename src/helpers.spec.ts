@@ -1,4 +1,5 @@
-import { describe, it, expect } from "vitest";
+import type { Result } from "./api";
+import { err } from "./err";
 import {
   allErr,
   allOk,
@@ -11,9 +12,8 @@ import {
   someErr,
   someOk,
 } from "./helpers";
-import type { Result } from "./api";
 import { ok } from "./ok";
-import { err } from "./err";
+import { describe, expect, it } from "vitest";
 
 describe("helpers", () => {
   describe("isResult()", () => {
@@ -176,7 +176,7 @@ describe("helpers", () => {
 
 export function assertResultEquals<R extends Result>(
   result: R,
-  data: Partial<R>
+  data: Partial<R>,
 ): void {
   expect(result).toEqual(expect.objectContaining(data));
 }
