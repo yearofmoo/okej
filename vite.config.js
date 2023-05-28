@@ -1,8 +1,6 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
 
-const PROD = process.env.PROD ? true : false;
-
 export default async () => {
   return await defineConfig({
     test: {
@@ -12,12 +10,11 @@ export default async () => {
       extensions: [".mjs", ".js", ".ts", ".json"],
     },
     build: {
-      minify: PROD,
+      minify: false,
       lib: {
         name: "okej",
         formats: ["es", "cjs"],
-        fileName: (format) =>
-          `${format == "es" ? "esm" : "cjs"}/index.${PROD ? "min." : ""}js`,
+        fileName: (format) => `index.${format == "es" ? "esm" : "cjs"}.js`,
         entry: resolve(__dirname, "./index.ts"),
       },
     },

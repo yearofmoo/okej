@@ -1,13 +1,9 @@
-import type { Ok } from "./api";
+import type { Ok, OkData } from "./api";
 import { isOkResult } from "./helpers";
 
-type OkData<O extends Ok<D> | D, D extends unknown = unknown> = O extends {
-  ok: boolean;
-  data: D;
-}
-  ? OkData<O["data"]>
-  : O;
-
+/**
+ * Creates an Ok result.
+ */
 export function ok(): Ok<null>;
 export function ok(value: undefined): Ok<undefined>;
 export function ok<T extends Ok<D>, D extends unknown, ID extends OkData<T>>(

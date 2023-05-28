@@ -21,3 +21,13 @@ export interface Err<
   errException: E | null;
   errContext: X | null;
 }
+
+export type OkData<
+  O extends Ok<D> | D,
+  D extends unknown = unknown,
+> = O extends {
+  ok: boolean;
+  data: D;
+}
+  ? OkData<O["data"]>
+  : O;

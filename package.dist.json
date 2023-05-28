@@ -9,11 +9,11 @@
   },
   "exports": {
     "types": "./index.d.ts",
-    "require": "./cjs/index.js",
-    "import": "./esm/index.js"
+    "require": "./index.cjs.js",
+    "import": "./index.esm.js"
   },
-  "main": "./cjs/index.js",
-  "module": "./esm/index.js",
+  "main": "./index.cjs.js",
+  "module": "./index.esm.js",
   "types": "./index.d.ts",
   "keywords": [
     "result",

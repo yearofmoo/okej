@@ -1,6 +1,6 @@
 {
   "name": "okej",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A bare-metal Result type for Javascript/TypeScript",
   "author": "Matias Niemelä <matias@yearofmoo.com> (http://www.yearofmoo.com)",
   "repository": {
@@ -29,6 +29,7 @@
   ],
   "dependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "dts-bundle": "^0.7.3",
     "prettier": "^2.8.8",
     "vite": "^4.3.9",
     "vitest": "^0.31.1"

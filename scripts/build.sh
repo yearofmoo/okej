@@ -13,20 +13,17 @@ echo "Building version $VERSION"
 OUT_DIR=dist
 TMP_DIR=tmp
 
-# build the dev versions
-pnpm vite build --outDir $TMP_DIR
-
 # build the prod versions
-PROD=true pnpm vite build
-
-# copy the dev versions to the output directory
-cp -r $TMP_DIR/* $OUT_DIR
+pnpm vite build
 
 # build the Typescript artifacts
-pnpm tsc \
-	--project tsconfig.json \
-	--declaration \
-	--emitDeclarationOnly
+pnpm tsc --emitDeclarationOnly --declaration --declarationDir $TMP_DIR
+pnpm dts-bundle \
+  --name okej \
+  --main ./$TMP_DIR/index.d.ts \
+  --outputAsModuleFolder false \
+  --out types.d.ts
+cp $TMP_DIR/types.d.ts $OUT_DIR/index.d.ts
 
 # copy the readme and package.json
 cp README.md $OUT_DIR

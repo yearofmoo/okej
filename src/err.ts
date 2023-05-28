@@ -1,6 +1,9 @@
 import type { Err } from "./api";
 import { isResult } from "./helpers";
 
+/**
+ * Creates an Err result.
+ */
 export function err(): Err;
 export function err(err: null | undefined | boolean): Err;
 export function err<T extends Err>(err: T): T;
