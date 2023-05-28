@@ -38,7 +38,7 @@ const goodResult = ok("data");
 const badResult = err("something failed", "ERROR_500");
 ```
 
-Now for any code that deals with a reuslt object, it must deal with the result object
+Now for any code that deals with a result object, it must deal with the result object
 and explicity deal with it's success and failure (ok/err) states.
 
 ```ts
@@ -443,3 +443,27 @@ do introduce complexity and lead JS code into a direction that isn't common.
 This library is just a small utility library that aims to stay lean and below the `2kb` mark.
 
 There is also the NPM library called `results`, but the README says to consider other tools.
+
+### It works with HTTP
+
+Another good reason for this library is because it works with HTTP requests out of the box since no
+special function/object code is added around result objects.
+
+```ts
+// somewhere in the backend
+import { ok, err } from "okej";
+import express from "express";
+
+const app = express();
+app.get("/users", (req, res) => {
+  res.send(ok([{ username: "user123" }, { username: "user456" }]));
+});
+
+app.post("/users", (req, res) => {
+  // Ok or Err depending on if the user was created
+  const result = createUser(req.body.user);
+  res.send(result);
+});
+```
+
+And the front-end can just consume the `Ok` and `Err` `Result` values.
