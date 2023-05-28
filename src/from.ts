@@ -24,3 +24,14 @@ export function from<D extends unknown, R extends Result<D>[]>(
     return err({ errContext: context });
   }
 }
+
+export async function fromPromise<D extends unknown>(
+  promise: Promise<D>
+): Promise<Result<D>> {
+  try {
+    const data = await promise;
+    return ok(data);
+  } catch (e) {
+    return err(e);
+  }
+}
