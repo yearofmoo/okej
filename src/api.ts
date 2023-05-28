@@ -20,5 +20,4 @@ export interface Err<
   errMessage: string;
   errException: E | null;
   errContext: X | null;
-  errStack: Error["stack"];
 }
