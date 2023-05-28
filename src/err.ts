@@ -19,7 +19,12 @@ export function err<
   E extends Error,
   N extends number,
   X extends { [key: string]: unknown }
->(e: E, errMessage?: string, errCode?: N, errContext?: X): Err<N, E, X>;
+>(
+  e: E | unknown,
+  errMessage?: string,
+  errCode?: N,
+  errContext?: X
+): Err<N, E, X>;
 export function err<
   N extends number,
   E extends Error,
@@ -68,7 +73,7 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
           break;
 
         case "object":
-          if (a instanceof Error) {
+          if (isJsError(a)) {
             // err(Error, message?, code?, context?)
             exception = a;
             message = typeof b === "string" ? b : a.message || "";
@@ -95,4 +100,13 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
     errMessage: message,
     errException: exception,
   };
+}
+
+function isJsError(e: unknown): e is Error {
+  return (
+    e instanceof Error ||
+    (typeof e === "object" &&
+      e !== null &&
+      typeof (e as { message?: unknown }).message === "string")
+  );
 }
