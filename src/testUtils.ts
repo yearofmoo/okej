@@ -1,5 +1,5 @@
 import { expect } from "vitest";
-import { Result } from "./api";
+import type { Result } from "./api";
 
 export function assertResultEquals<R extends Result>(
   result: R,

@@ -1,4 +1,4 @@
-import { Err } from "./api";
+import type { Err } from "./api";
 import { isResult } from "./helpers";
 
 export function err(): Err;
@@ -83,10 +83,10 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
           } else {
             // err({ errMessage?, errCode?, errContext?, errException? })
             const { errCode, errMessage, errContext, errException } = a as Err;
-            exception = errException || null;
-            code = errCode || 0;
-            message = errMessage || (exception ? exception.message : "");
-            context = errContext || null;
+            exception = errException ?? null;
+            code = errCode ?? 0;
+            message = errMessage ?? (exception ? exception.message : "");
+            context = errContext ?? null;
           }
       }
     }

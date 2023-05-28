@@ -1,4 +1,4 @@
-import { Err, Ok, Result } from "./api";
+import type { Err, Ok, Result } from "./api";
 import { err } from "./err";
 import { allOk, isResult } from "./helpers";
 import { ok } from "./ok";

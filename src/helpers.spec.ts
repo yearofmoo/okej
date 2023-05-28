@@ -11,7 +11,7 @@ import {
   someErr,
   someOk,
 } from "./helpers";
-import { Result } from "./api";
+import type { Result } from "./api";
 import { ok } from "./ok";
 import { err } from "./err";
 

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { assertResultEquals } from "./testUtils";
 import { err } from "./err";
-import { Err } from "./api";
+import type { Err } from "./api";
 
 describe("err()", () => {
   it("should return an Err result when called with nothing", () => {
@@ -143,7 +143,7 @@ describe("err()", () => {
   });
 });
 
-function errIsErr(a: Err, b: Err) {
+function errIsErr(a: Err, b: Err): void {
   expect(a.ok).toEqual(a.ok);
   expect(a.err).toEqual(b.err);
   expect(a.errMessage).toEqual(b.errMessage);

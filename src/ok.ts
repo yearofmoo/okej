@@ -1,4 +1,4 @@
-import { Ok } from "./api";
+import type { Ok } from "./api";
 import { isOkResult } from "./helpers";
 
 type OkData<O extends Ok<D> | D, D extends unknown = unknown> = O extends {

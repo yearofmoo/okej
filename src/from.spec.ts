@@ -49,6 +49,7 @@ describe("", () => {
     });
 
     it("should return an Err result if the promise rejects", async () => {
+      // eslint-disable-next-line prefer-promise-reject-errors
       const promise = Promise.reject(1);
       const result = await fromPromise(promise);
       assertIsErr(result);

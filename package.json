@@ -10,6 +10,8 @@
   "scripts": {
     "test": "vitest",
     "build": "./scripts/build.sh",
+    "lint": "./scripts/lint.sh",
+    "lint:fix": "FIX=true ./scripts/lint.sh",
     "publish-to-npm": "./scripts/deploy.sh",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
@@ -27,8 +29,16 @@
   ],
   "dependencies": {
     "prettier": "^2.8.8",
-    "typescript": "^5.0.4",
     "vite": "^4.3.9",
     "vitest": "^0.31.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^34.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "typescript": "^5.0.4"
   }
 }

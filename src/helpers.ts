@@ -1,4 +1,4 @@
-import { Ok, Err, Result } from "./api";
+import type { Ok, Err, Result } from "./api";
 
 export function isOkResult<D extends unknown = unknown>(
   value: unknown
