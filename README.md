@@ -358,27 +358,27 @@ Now when the `validateForm` data is called, how does that look?
 const myFormData = { ... }; // collected from some form
 let isValid = false;
 try {
-	isValid = validateForm(myFormData);
+  isValid = validateForm(myFormData);
 } catch (e) {
-	// `e` could be an error or even a string. How do we figure out what the error actually is?
-	if (e instanceof Error) {
-		if (/username/i.test(e.message)) {
-			// show the error in the form for the username
-			// what if there are various errors here?
-		} else if (/email/i.test(e.message)) {
-			// show the error in the form for the email
-		} else {
-			// what now?
-		}
-	} else {
-		// oh crap... what now?
-	}
+  // `e` could be an error or even a string. How do we figure out what the error actually is?
+  if (e instanceof Error) {
+    if (/username/i.test(e.message)) {
+      // show the error in the form for the username
+      // what if there are various errors here?
+    } else if (/email/i.test(e.message)) {
+      // show the error in the form for the email
+    } else {
+      // what now?
+    }
+  } else {
+    // oh crap... what now?
+  }
 }
 
 if (isValid) {
-	// finally.
+  // finally.
 } else {
-	// wait there's another error case here too?
+  // wait there's another error case here too?
 }
 ```
 
@@ -389,22 +389,22 @@ Well using a `Result` object we can clean this up quite a lot.
 import {ok, err, Result} from "okej";
 
 interface FormError {
-	EmptyUsername,
-	BadUsername,
-	EmptyEmail,
-	BadEmail,
+  EmptyUsername,
+  BadUsername,
+  EmptyEmail,
+  BadEmail,
 }
 
 function validateForm(formData: {[key: string]: unknown): Result {
-	if (!formData.username) {
-		return err("you didn't enter a username", FormError.EmptyUsername);
-	}
+  if (!formData.username) {
+    return err("you didn't enter a username", FormError.EmptyUsername);
+  }
 
-	if (!formData.email) {
-		return err("you didn't enter an email", FormError.EmptyEmail);
-	}
+  if (!formData.email) {
+    return err("you didn't enter an email", FormError.EmptyEmail);
+  }
 
-	return ok();
+  return ok();
 }
 ```
 
@@ -414,19 +414,21 @@ And dealing with this error is just a matter of looking at the result response
 const myFormData = { ... }; // collected from some form
 const validationResponse = validateForm(myFormData);
 if (validationResponse.ok) {
-	// cool it works
+  // cool it works
 } else {
-	switch (validationResponse.errCode) {
-		case FormError.EmptyUsername:
-			// deal with the missing username
-			break;
-		case FormError.EmptyEmail:
-			// deal with the missing email
-			break;
-		default:
-			// catch all
-			break;
-	}
+  switch (validationResponse.errCode) {
+    case FormError.EmptyUsername:
+      // deal with the missing username
+      break;
+
+    case FormError.EmptyEmail:
+      // deal with the missing email
+      break;
+
+    default:
+      // catch all
+      break;
+  }
 }
 ```
 
@@ -438,4 +440,6 @@ that it brings in a lot of extra features that might not be necessary (i.e. `Opt
 types, Rx and mapping support as well as unwrapping). These features are essential in Rust, but they
 do introduce complexity and lead JS code into a direction that isn't common.
 
-This library is just a small utility library that aims to stay lean and below the `1kb` mark.
+This library is just a small utility library that aims to stay lean and below the `2kb` mark.
+
+There is also the NPM library called `results`, but the README says to consider other tools.
