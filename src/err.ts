@@ -1,5 +1,4 @@
 import type { Err } from "./api";
-import { isResult } from "./helpers";
 
 /**
  * Creates an Err result.
@@ -23,21 +22,11 @@ export function err<
   N extends number,
   X extends { [key: string]: unknown },
 >(
-  e: E | unknown,
+  e: E | Partial<Err> | unknown,
   errMessage?: string,
   errCode?: N,
   errContext?: X,
 ): Err<N, E, X>;
-export function err<
-  N extends number,
-  E extends Error,
-  X extends { [key: string]: unknown },
->(err: {
-  errMessage?: string;
-  errCode?: N;
-  errContext?: X;
-  errException?: E;
-}): Err<N, E, X>;
 export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
   let code: number | string = 0;
   let message: string = "";
@@ -49,49 +38,52 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
   // --
   // otherwise...
   if (a !== null && a !== undefined) {
-    if (isResult(a)) {
-      if (a.err) {
-        // err(Err)
-        code = a.errCode;
-        message = a.errMessage;
-        context = a.errContext;
-        exception = a.errException;
-      }
-    } else {
-      switch (typeof a) {
-        // err(number)
-        case "number":
-          code = a;
-          break;
+    switch (typeof a) {
+      // err(number)
+      case "number":
+        code = a;
+        break;
 
-        // err(string, number?, context?)
-        case "string":
-          message = a;
-          if (typeof b === "number" || typeof b === "string") {
-            code = b;
-          }
-          if (c && typeof c === "object") {
-            context = c as { [key: string]: unknown };
-          }
-          break;
+      // err(string, number?, context?)
+      case "string":
+        message = a;
+        if (typeof b === "number" || typeof b === "string") {
+          code = b;
+        }
+        if (c && typeof c === "object") {
+          context = c as { [key: string]: unknown };
+        }
+        break;
 
-        case "object":
-          if (isJsError(a)) {
-            // err(Error, message?, code?, context?)
-            exception = a;
-            message = typeof b === "string" ? b : a.message || "";
-            code = typeof c === "number" || typeof c === "string" ? c : 0;
-            context =
-              typeof d === "object" ? (d as { [key: string]: unknown }) : null;
-          } else {
-            // err({ errMessage?, errCode?, errContext?, errException? })
-            const { errCode, errMessage, errContext, errException } = a as Err;
-            exception = errException ?? null;
-            code = errCode ?? 0;
-            message = errMessage ?? (exception ? exception.message : "");
-            context = errContext ?? null;
-          }
-      }
+      case "object":
+        if (isJsError(a)) {
+          // err(Error, message?, code?, context?)
+          exception = a;
+          message = typeof b === "string" ? b : a.message || "";
+          code = typeof c === "number" || typeof c === "string" ? c : 0;
+          context =
+            typeof d === "object" ? (d as { [key: string]: unknown }) : null;
+        } else {
+          // err({ errMessage?, errCode?, errContext?, errException? })
+          const { errCode, errMessage, errContext, errException } =
+            a as Partial<Err>;
+          exception = errException ?? null;
+          code =
+            typeof c === "number"
+              ? c
+              : typeof errCode === "number"
+              ? errCode
+              : 0;
+          message = isValidString(b)
+            ? b
+            : isValidString(errMessage)
+            ? errMessage
+            : exception
+            ? exception.message
+            : "";
+          context = isErrContext(d) ? d : errContext ?? null;
+        }
+        break;
     }
   }
 
@@ -112,4 +104,12 @@ function isJsError(e: unknown): e is Error {
       e !== null &&
       typeof (e as { message?: unknown }).message === "string")
   );
+}
+
+function isValidString(value: unknown): value is string {
+  return typeof value === "string" && value.length !== 0;
+}
+
+function isErrContext(value: unknown): value is { [key: string]: unknown } {
+  return typeof value === "object" && value !== null;
 }

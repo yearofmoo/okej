@@ -1,4 +1,4 @@
-import type { Err } from "./api";
+import type { Err, Result } from "./api";
 import { err } from "./err";
 import { assertResultEquals } from "./testUtils";
 import { describe, expect, it } from "vitest";
@@ -140,6 +140,60 @@ describe("err()", () => {
 
   it("should not set any data on the Err result", () => {
     expect(err()).not.toHaveProperty("data");
+  });
+
+  it("should support enums as error codes", () => {
+    enum StringEnum {
+      BAD_ERROR = "BAD_ERROR",
+      GOOD_ERROR = "GOOD_ERROR",
+    }
+    enum NumEnum {
+      BAD_ERROR = 1,
+      GOOD_ERROR = 2,
+    }
+    const strError: Result<unknown, StringEnum> = err(
+      "something broke abc",
+      StringEnum.BAD_ERROR,
+    );
+    expect(strError.errCode).toEqual(StringEnum.BAD_ERROR);
+
+    const numError: Result<unknown, NumEnum> = err(
+      "something broke 123",
+      NumEnum.BAD_ERROR,
+    );
+    expect(numError.errCode).toEqual(NumEnum.BAD_ERROR);
+  });
+
+  it("should allow an Err object to be passed in with overrides", () => {
+    const e = err("fail", 555, { old: "data" });
+
+    // no overrides
+    assertResultEquals(err(e), {
+      errMessage: "fail",
+      errCode: 555,
+      errContext: { old: "data" },
+    });
+
+    // just the message
+    assertResultEquals(err(e, "super fail"), {
+      errMessage: "super fail",
+      errCode: 555,
+      errContext: { old: "data" },
+    });
+
+    // message and number
+    assertResultEquals(err(e, "super fail", 999), {
+      errMessage: "super fail",
+      errCode: 999,
+      errContext: { old: "data" },
+    });
+
+    // message, number and context
+    assertResultEquals(err(e, "super fail", 999, { some: "data" }), {
+      errMessage: "super fail",
+      errCode: 999,
+      errContext: { some: "data" },
+    });
   });
 });
 
