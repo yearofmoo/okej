@@ -14,6 +14,6 @@ if [[ $FIX ]]; then
   ARGS="--fix"
 fi
 
-pnpm eslint $ARGS --ext .ts ./index.ts ./src
+pnpm eslint $ARGS --ext .ts ./index.ts ./src ./vite.config.js
 
 echo "Linting complete! Looks good."

@@ -10,6 +10,7 @@ parserOptions:
   project: "tsconfig.eslint.json"
 rules:
   {
+    "quotes": ["error", "double"],
     "@typescript-eslint/quotes": "off",
     "@typescript-eslint/semi": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",

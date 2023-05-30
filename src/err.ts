@@ -18,6 +18,16 @@ export function err<X extends { [key: string]: unknown }>(
   errContext: X,
 ): Err<number, Error, X>;
 export function err<
+  E extends Err,
+  N extends number,
+  X extends { [key: string]: unknown },
+>(
+  e: Partial<E> | unknown,
+  errMessage?: string,
+  errCode?: N,
+  errContext?: X,
+): Err<N, NonNullable<E["errException"]>, X>;
+export function err<
   E extends Error,
   N extends number,
   X extends { [key: string]: unknown },
