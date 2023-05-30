@@ -38,4 +38,9 @@ describe("ok()", () => {
     expect(ok()).not.toHaveProperty("errContext");
     expect(ok()).not.toHaveProperty("errException");
   });
+
+  it("should allow `any` data to be passed in", () => {
+    const data: any = { key: "value" };
+    expect(ok(data).data).toBe(data);
+  });
 });

@@ -1,4 +1,4 @@
-import type { Ok, OkData } from "./api";
+import type { Err, Ok } from "./api";
 import { isOkResult } from "./helpers";
 
 /**
@@ -6,10 +6,9 @@ import { isOkResult } from "./helpers";
  */
 export function ok(): Ok<null>;
 export function ok(value: undefined): Ok<undefined>;
-export function ok<T extends Ok<D>, D extends unknown, ID extends OkData<T>>(
-  data: T,
-): Ok<ID>;
-export function ok<T extends unknown>(data: T): Ok<T>;
+export function ok<T extends Err>(value: T): Ok<null>;
+export function ok<T extends { ok: true; err: false }>(value: T): T;
+export function ok<T extends unknown>(value: T): Ok<T>;
 export function ok(value?: unknown): Ok<unknown> {
   let resultData: any = value;
   if (resultData === undefined) {

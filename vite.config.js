@@ -1,13 +1,13 @@
-import { resolve } from "path"
-import { defineConfig } from "vite"
+import { resolve } from "path";
+import { defineConfig } from "vite";
 
 export default async () => {
   return await defineConfig({
     test: {
-      watch: false
+      watch: false,
     },
     resolve: {
-      extensions: [".mjs", ".js", ".ts", ".json"]
+      extensions: [".mjs", ".js", ".ts", ".json"],
     },
     build: {
       minify: false,
@@ -15,8 +15,8 @@ export default async () => {
         name: "okej",
         formats: ["es", "cjs"],
         fileName: (format) => `index.${format === "es" ? "mjs" : "cjs"}`,
-        entry: resolve(__dirname, "./index.ts")
-      }
-    }
-  })
-}
+        entry: resolve(__dirname, "./index.ts"),
+      },
+    },
+  });
+};
