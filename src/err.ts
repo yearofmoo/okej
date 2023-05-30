@@ -1,4 +1,5 @@
 import type { Err } from "./api";
+import { isJsError } from "./shared";
 
 /**
  * Creates an Err result.
@@ -12,15 +13,14 @@ export function err<C extends number | string>(
   errMessage: string,
   errCode: C,
 ): Err<C>;
-export function err<X extends { [key: string]: unknown }>(
-  errMessage: string,
-  errCode: number,
-  errContext: X,
-): Err<number, Error, X>;
+export function err<
+  X extends { [key: string]: unknown },
+  N extends unknown = string | number,
+>(errMessage: string, errCode: N, errContext: X): Err<number, Error, X>;
 export function err<
   E extends Err,
-  N extends number,
-  X extends { [key: string]: unknown },
+  N extends unknown = string | number,
+  X extends { [key: string]: unknown } = { [key: string]: unknown },
 >(
   e: Partial<E> | unknown,
   errMessage?: string,
@@ -105,15 +105,6 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
     errMessage: message,
     errException: exception,
   };
-}
-
-function isJsError(e: unknown): e is Error {
-  return (
-    e instanceof Error ||
-    (typeof e === "object" &&
-      e !== null &&
-      typeof (e as { message?: unknown }).message === "string")
-  );
 }
 
 function isValidString(value: unknown): value is string {
