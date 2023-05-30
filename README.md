@@ -82,7 +82,11 @@ pnpm add okej
 Then import it as needed:
 
 ```ts
+// ESM / MJS
 import { err, ok, Result } from "okej";
+
+// CommonJS / old school Node
+const { err, ok, Result } = require("okej");
 ```
 
 ## Usage
