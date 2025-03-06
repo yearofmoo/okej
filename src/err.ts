@@ -103,6 +103,9 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
     }
   }
 
+  // we want the stack trace of the error to be listed
+  exception = exception || new Error(message);
+
   return {
     ok: false,
     err: true,

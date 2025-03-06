@@ -10,7 +10,6 @@ describe("err()", () => {
     assertResultEquals(err(), { errMessage: "" });
     assertResultEquals(err(), { errCode: 0 });
     assertResultEquals(err(), { errContext: null });
-    assertResultEquals(err(), { errException: null });
   });
 
   it("should return an Err result when called with null or undefined or boolean value", () => {
@@ -68,6 +67,11 @@ describe("err()", () => {
     expect(err(e).errException).toEqual(e);
     expect(err(e).errCode).toEqual(0);
     expect(err(e).errMessage).toEqual("fail");
+  });
+
+  it("should populate an err exception even if nothing is provided", () => {
+    const error = new Error("something broke");
+    expect(err("something broke").errException).toEqual(error);
   });
 
   it("should override values if more params are passed in after the Error value", () => {
@@ -133,7 +137,6 @@ describe("err()", () => {
         errCode: 0,
         errMessage: "",
         errContext: { some: "data" },
-        errException: null,
       },
     );
   });
