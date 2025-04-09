@@ -5,6 +5,9 @@ cd ..
 # exit when any command fails
 set -e
 
+pnpm fullcheck
+pnpm build
+
 VERSION=$(node -p "require('./package.json').version")
 VERSION_DIST=$(node -p "require('./dist/package.json').version")
 

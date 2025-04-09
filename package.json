@@ -14,7 +14,8 @@
     "lint:fix": "FIX=true ./scripts/lint.sh",
     "publish-to-npm": "./scripts/deploy.sh",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "fullcheck": "./scripts/fullcheck.sh"
   },
   "license": "MIT",
   "keywords": [
