@@ -8,7 +8,7 @@ export function toResult<
   T extends { ok: true; data?: D } | { err: false; data?: D },
 >(value: T): Ok<T>;
 export function toResult<
-  C extends string | number,
+  C,
   T extends { ok: false; errCode?: C } | { err: true; errCode?: C },
 >(value: T): Err<C>;
 export function toResult<D extends false | "" | 0 | null | undefined>(

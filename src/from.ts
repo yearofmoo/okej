@@ -3,7 +3,7 @@ import { err } from "./err";
 import { allOk, isResult } from "./helpers";
 import { ok } from "./ok";
 
-export function from<D, C extends string | number, R extends Result<D>[]>(
+export function from<D, C, R extends Result<D>[]>(
   results: R,
 ): Ok<D[]> | Err<C, Error, { results: R }> {
   if (allOk(results)) {

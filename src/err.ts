@@ -14,17 +14,17 @@ export function err(): Err;
 export function err(err: null | undefined): Err;
 export function err<T extends Err>(err: T): T;
 export function err(errMessage: string): Err;
-export function err<C extends number | string = number | string>(
+export function err<C = number | string>(
   errMessage: string,
   errCode: C,
 ): Err<C>;
 export function err<
-  C extends string | number = string | number,
+  C = string | number,
   X extends { [key: string]: unknown } = { [key: string]: unknown },
 >(errMessage: string, errCode: C, errContext: X): Err<C, Error, X>;
 export function err<
   E extends Err,
-  C extends string | number = string | number,
+  C = string | number,
   X extends { [key: string]: unknown } = { [key: string]: unknown },
 >(
   e: AtLeastOne<Partial<E>>,
@@ -34,7 +34,7 @@ export function err<
 ): Err<C, NonNullable<E["errException"]>, X>;
 export function err<
   E extends Error,
-  C extends string | number = string | number,
+  C = string | number,
   X extends { [key: string]: unknown } = { [key: string]: unknown },
 >(
   e: E | { stack: string; message: string } | unknown,

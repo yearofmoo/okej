@@ -1,4 +1,6 @@
+import type { Result } from "./api";
 import { err } from "./err";
+import { assertIsErr } from "./helpers";
 import { ok } from "./ok";
 import { toResult } from "./toResult";
 import { describe, expect, it } from "vitest";
@@ -107,5 +109,25 @@ describe("toResult()", () => {
     expect(toResult({ a: 1 })).toEqual(ok({ a: 1 }));
     expect(toResult([])).toEqual(ok([]));
     expect(toResult([1, 2, 3])).toEqual(ok([1, 2, 3]));
+  });
+
+  it("should support enums in result objects", () => {
+    enum XEnum {
+      A = "a",
+      B = 2,
+    }
+
+    let result: Result<null, XEnum>;
+    result = err("message", XEnum.A);
+
+    assertIsErr(result);
+    expect(result.ok).toEqual(false);
+    expect(result.errCode).toEqual(XEnum.A);
+
+    result = err("message", XEnum.B);
+
+    assertIsErr(result);
+    expect(result.ok).toEqual(false);
+    expect(result.errCode).toEqual(XEnum.B);
   });
 });
