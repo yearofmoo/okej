@@ -1,6 +1,6 @@
 {
   "name": "okej",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "A bare-metal Result type for Javascript/TypeScript",
   "author": "Matias Niemelä <matias@yearofmoo.com> (https://www.yearofmoo.com)",
   "repository": {
