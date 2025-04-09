@@ -11,21 +11,20 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
  * Creates an Err result.
  */
 export function err(): Err;
-export function err(err: null | undefined | boolean): Err;
+export function err(err: null | undefined): Err;
 export function err<T extends Err>(err: T): T;
-export function err<C extends number>(errCode: C): Err<C>;
 export function err(errMessage: string): Err;
-export function err<C extends unknown = number | string>(
+export function err<C extends number | string = number | string>(
   errMessage: string,
   errCode: C,
 ): Err<C>;
 export function err<
-  C extends unknown = string | number,
+  C extends string | number = string | number,
   X extends { [key: string]: unknown } = { [key: string]: unknown },
 >(errMessage: string, errCode: C, errContext: X): Err<number, Error, X>;
 export function err<
   E extends Err,
-  C extends unknown = string | number,
+  C extends string | number = string | number,
   X extends { [key: string]: unknown } = { [key: string]: unknown },
 >(
   e: AtLeastOne<Partial<E>>,
@@ -35,7 +34,7 @@ export function err<
 ): Err<C, NonNullable<E["errException"]>, X>;
 export function err<
   E extends Error,
-  C extends unknown = string | number,
+  C extends string | number = string | number,
   X extends { [key: string]: unknown } = { [key: string]: unknown },
 >(
   e: E | { stack: string; message: string } | unknown,
@@ -45,7 +44,7 @@ export function err<
 ): Err<C, E, X>;
 export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
   let code: number | string = 0;
-  let message: string = "";
+  let message = "";
   let context: { [key: string]: unknown } | null = null;
   let exception: Error | null = null;
 
@@ -55,12 +54,7 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
   // otherwise...
   if (a !== null && a !== undefined) {
     switch (typeof a) {
-      // err(number)
-      case "number":
-        code = a;
-        break;
-
-      // err(string, number?, context?)
+      // err(string, code?, context?)
       case "string":
         message = a;
         if (typeof b === "number" || typeof b === "string") {
@@ -104,7 +98,7 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
   }
 
   // we want the stack trace of the error to be listed
-  exception = exception || new Error(message);
+  exception = exception ?? new Error(message);
 
   return {
     ok: false,

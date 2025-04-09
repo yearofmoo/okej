@@ -164,7 +164,6 @@ console.log(result.errMessage); // "something broke"
 console.log(result.errContext); // { customDataRelatedToError: "cool" }
 
 // by other means...
-result = err(10); // result.errCode is 10
 result = err("something broke"); // result.errMessage is "something broke"
 result = err("something broke", 10); // result.errMessage/result.errCode set
 result = err("something broke", "BAD ERROR"); // yes string-based error codes work too
@@ -322,13 +321,13 @@ will return an Err response.
 ```ts
 import { from } from "okej";
 
-const results = [ok(1), err("noooo"), err(100)];
+const results = [ok(1), err("noooo"), err("xxx", 100)];
 
 // a Ok value will be returned if all input values are also Ok
 const result = from(results);
 console.log(result.ok); // false
 console.log(result.err); // false
-console.log(result.errContext.results); // [ ok(1), err("noooo"), err(100) ]
+console.log(result.errContext.results); // [ ok(1), err("noooo"), err("xxx", 100) ]
 ```
 
 ## More on JavaScript's error handling issues

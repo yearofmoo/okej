@@ -20,11 +20,9 @@ describe("err()", () => {
     errIsErr(err(false), target);
   });
 
-  it("should return an Err result with a number", () => {
-    expect(err(0).errCode).toEqual(0);
-    expect(err(0).errMessage).toEqual("");
-    expect(err(1).errCode).toEqual(1);
-    expect(err(1).errMessage).toEqual("");
+  it("should always treat the Err result as an Err", () => {
+    expect(err(1).errCode).not.toEqual(1);
+    expect(err(1).errMessage).not.toEqual("1");
   });
 
   it("should return an Err result with a string", () => {
@@ -58,8 +56,8 @@ describe("err()", () => {
 
   it("should return an Err result with the data extracted out of a Err input value", () => {
     expect(err(err()).errCode).toEqual(0);
-    expect(err(err(123)).errCode).toEqual(123);
-    expect(err(err(err(456))).errCode).toEqual(456);
+    expect(err(err("x", 123)).errCode).toEqual(123);
+    expect(err(err(err("x", 456))).errCode).toEqual(456);
   });
 
   it("should return an Err result with an Error value passed in as the input param", () => {
@@ -196,6 +194,24 @@ describe("err()", () => {
       errMessage: "super fail",
       errCode: 999,
       errContext: { some: "data" },
+    });
+  });
+
+  it("should extend an err object", () => {
+    const error = new Error("something broke");
+    const sourceErr = err(error);
+    const updatedError = err({
+      ...sourceErr,
+      errCode: 456,
+      errContext: { new: "data" },
+    });
+
+    // no overrides
+    assertResultEquals(updatedError, {
+      errException: error,
+      errMessage: "something broke",
+      errCode: 456,
+      errContext: { new: "data" },
     });
   });
 });

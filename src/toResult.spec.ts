@@ -31,8 +31,8 @@ describe("toResult()", () => {
     expect(toResult({ ok: false, errMessage: "noo" })).toEqual(err("noo"));
     expect(toResult({ err: true, errMessage: "noo!" })).toEqual(err("noo!"));
 
-    expect(toResult({ err: true, errCode: 999 })).toEqual(err(999));
-    expect(toResult({ ok: false, errCode: 999 })).toEqual(err(999));
+    expect(toResult({ err: true, errCode: 999 })).toEqual(err("", 999));
+    expect(toResult({ ok: false, errCode: 999 })).toEqual(err("", 999));
     expect(toResult({ err: true, errCode: "FFF" })).toEqual(
       err({ errCode: "FFF" }),
     );
