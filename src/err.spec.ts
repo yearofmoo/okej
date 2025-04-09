@@ -214,6 +214,23 @@ describe("err()", () => {
       errContext: { new: "data" },
     });
   });
+
+  it("should support enums as error codes", () => {
+    enum X {
+      A = "1",
+      B = 2,
+    }
+
+    const e = err("fail", X.A);
+    assertResultEquals(e, {
+      errCode: X.A,
+    });
+
+    const e2: Err<X> = err("fail", X.B);
+    assertResultEquals(e2, {
+      errCode: X.B,
+    });
+  });
 });
 
 function errIsErr(a: Err, b: Err): void {

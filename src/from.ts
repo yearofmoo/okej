@@ -3,9 +3,9 @@ import { err } from "./err";
 import { allOk, isResult } from "./helpers";
 import { ok } from "./ok";
 
-export function from<D extends unknown, R extends Result<D>[]>(
+export function from<D, C extends string | number, R extends Result<D>[]>(
   results: R,
-): Ok<D[]> | Err<number, Error, { results: R }> {
+): Ok<D[]> | Err<C, Error, { results: R }> {
   if (allOk(results)) {
     const data = (results as Ok<D>[]).map((r) => {
       let data = r.data;
@@ -19,15 +19,13 @@ export function from<D extends unknown, R extends Result<D>[]>(
       return data;
     });
     return ok(data);
-  } else {
-    const context = { results };
-    return err({ errContext: context });
   }
+
+  const context = { results };
+  return err({ errContext: context });
 }
 
-export async function fromPromise<D extends unknown>(
-  promise: Promise<D>,
-): Promise<Result<D>> {
+export async function fromPromise<D>(promise: Promise<D>): Promise<Result<D>> {
   try {
     const data = await promise;
     return ok(data);

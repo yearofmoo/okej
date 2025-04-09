@@ -4,13 +4,13 @@ import { ok } from "./ok";
 import { isJsError } from "./shared";
 
 export function toResult<
-  D extends unknown,
+  D,
   T extends { ok: true; data?: D } | { err: false; data?: D },
 >(value: T): Ok<T>;
 export function toResult<
-  C extends unknown,
+  C extends string | number,
   T extends { ok: false; errCode?: C } | { err: true; errCode?: C },
->(value: T): Err<T["errCode"]>;
+>(value: T): Err<C>;
 export function toResult<D extends false | "" | 0 | null | undefined>(
   value: D,
 ): Err;
@@ -26,7 +26,9 @@ export function toResult(value: unknown): Result {
     if (("ok" in value && value.ok) || ("err" in value && !value.err)) {
       const data = (value as Ok).data ?? null;
       return ok(data);
-    } else if (("err" in value && value.err) || ("ok" in value && !value.ok)) {
+    }
+
+    if (("err" in value && value.err) || ("ok" in value && !value.ok)) {
       const e = value as Err;
       const errCode = e.errCode ?? 0;
       const errMessage = e.errMessage || "";

@@ -21,7 +21,7 @@ export function err<C extends number | string = number | string>(
 export function err<
   C extends string | number = string | number,
   X extends { [key: string]: unknown } = { [key: string]: unknown },
->(errMessage: string, errCode: C, errContext: X): Err<number, Error, X>;
+>(errMessage: string, errCode: C, errContext: X): Err<C, Error, X>;
 export function err<
   E extends Err,
   C extends string | number = string | number,
