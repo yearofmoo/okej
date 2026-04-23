@@ -7,6 +7,10 @@ import { isJsError } from "./shared";
 type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
+interface ErrorWithCaptureStackTrace extends Error {
+  captureStackTrace: (t: object, c?: (...args: unknown[]) => unknown) => void;
+}
+
 /**
  * Creates an Err result.
  */
@@ -47,6 +51,7 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
   let message = "";
   let context: { [key: string]: unknown } | null = null;
   let exception: Error | null = null;
+  let hasUserException = false;
 
   // err()
   // err(null | undefined)
@@ -69,6 +74,7 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
         if (isJsError(a)) {
           // err(Error, message?, code?, context?)
           exception = a;
+          hasUserException = true;
           message = typeof b === "string" ? b : a.message || "";
           code = typeof c === "number" || typeof c === "string" ? c : 0;
           context =
@@ -78,6 +84,7 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
           const { errCode, errMessage, errContext, errException } =
             a as Partial<Err>;
           exception = errException ?? null;
+          hasUserException = exception !== null;
           code =
             typeof c === "number"
               ? c
@@ -100,7 +107,7 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
   // we want the stack trace of the error to be listed
   exception = exception ?? new Error(message);
 
-  return {
+  const result: Err = {
     ok: false,
     err: true,
     errCode: code,
@@ -108,6 +115,25 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
     errMessage: message,
     errException: exception,
   };
+
+  if (hasUserException) {
+    Object.defineProperty(result, "stack", {
+      value: exception.stack,
+      enumerable: false,
+      writable: true,
+      configurable: true,
+    });
+  } else if (
+    "captureStackTrace" in Error &&
+    typeof Error.captureStackTrace === "function"
+  ) {
+    (Error as unknown as ErrorWithCaptureStackTrace).captureStackTrace(
+      result,
+      err,
+    );
+  }
+
+  return result;
 }
 
 function isValidString(value: unknown): value is string {

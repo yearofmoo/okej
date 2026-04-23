@@ -231,6 +231,53 @@ describe("err()", () => {
       errCode: X.B,
     });
   });
+
+  describe("stack", () => {
+    it("should attach a stack when no exception is provided", () => {
+      const e = err("fail");
+      expect(typeof e.stack).toEqual("string");
+      expect(e.stack).not.toEqual("");
+    });
+
+    it("should not include the err() frame in the captured stack", () => {
+      const e = err("fail");
+      expect(e.stack).not.toMatch(/\bat err\b/);
+    });
+
+    it("should use the exception's stack when an Error is passed in", () => {
+      const ex = new Error("boom");
+      const e = err(ex);
+      expect(e.stack).toEqual(ex.stack);
+    });
+
+    it("should use the exception's stack when errException is provided via object", () => {
+      const ex = new Error("boom");
+      const e = err({ errException: ex });
+      expect(e.stack).toEqual(ex.stack);
+    });
+
+    it("should omit the stack when JSON.stringified (no exception)", () => {
+      const e = err("fail");
+      const parsed = JSON.parse(JSON.stringify(e));
+      expect(parsed).not.toHaveProperty("stack");
+    });
+
+    it("should omit the stack when JSON.stringified (with exception)", () => {
+      const e = err(new Error("boom"));
+      const parsed = JSON.parse(JSON.stringify(e));
+      expect(parsed).not.toHaveProperty("stack");
+    });
+
+    it("should not include the stack string in the JSON.stringify output", () => {
+      const e = err("fail", 123, { some: "data" });
+      expect(typeof e.stack).toEqual("string");
+      const serialized = JSON.stringify(e);
+      expect(serialized).not.toContain("stack");
+      expect(serialized).not.toContain(e.stack as string);
+      expect(serialized).toContain("errMessage");
+      expect(serialized).toContain("errCode");
+    });
+  });
 });
 
 function errIsErr(a: Err, b: Err): void {
