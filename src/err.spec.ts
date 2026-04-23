@@ -256,12 +256,9 @@ describe("err()", () => {
     });
 
     it("should ignore arrays passed as context in the Error input branch", () => {
-      const e = err(
-        new Error("x"),
-        "msg",
-        1,
-        [1, 2, 3] as unknown as { [key: string]: unknown },
-      );
+      const e = err(new Error("x"), "msg", 1, [1, 2, 3] as unknown as {
+        [key: string]: unknown;
+      });
       expect(e.errContext).toBeNull();
     });
   });

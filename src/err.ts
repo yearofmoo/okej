@@ -84,11 +84,7 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
             a as Partial<Err>;
           exception = errException ?? null;
           hasUserException = exception !== null;
-          code = isValidCode(c)
-            ? c
-            : isValidCode(errCode)
-            ? errCode
-            : 0;
+          code = isValidCode(c) ? c : isValidCode(errCode) ? errCode : 0;
           message = isValidString(b)
             ? b
             : isValidString(errMessage)
@@ -116,9 +112,8 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
 
   if (hasUserException) {
     Object.defineProperty(result, "stack", {
-      value: exception.stack,
+      get: () => exception?.stack,
       enumerable: false,
-      writable: true,
       configurable: true,
     });
   } else if (
@@ -139,9 +134,7 @@ function isValidString(value: unknown): value is string {
 }
 
 function isErrContext(value: unknown): value is { [key: string]: unknown } {
-  return (
-    typeof value === "object" && value !== null && !Array.isArray(value)
-  );
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 function isValidCode(value: unknown): value is number | string {
