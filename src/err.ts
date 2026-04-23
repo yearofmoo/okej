@@ -65,8 +65,8 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
         if (typeof b === "number" || typeof b === "string") {
           code = b;
         }
-        if (c && typeof c === "object") {
-          context = c as { [key: string]: unknown };
+        if (isErrContext(c)) {
+          context = c;
         }
         break;
 
@@ -77,20 +77,18 @@ export function err(a?: unknown, b?: unknown, c?: unknown, d?: unknown): Err {
           hasUserException = true;
           message = typeof b === "string" ? b : a.message || "";
           code = typeof c === "number" || typeof c === "string" ? c : 0;
-          context =
-            typeof d === "object" ? (d as { [key: string]: unknown }) : null;
+          context = isErrContext(d) ? d : null;
         } else {
           // err({ errMessage?, errCode?, errContext?, errException? })
           const { errCode, errMessage, errContext, errException } =
             a as Partial<Err>;
           exception = errException ?? null;
           hasUserException = exception !== null;
-          code =
-            typeof c === "number"
-              ? c
-              : typeof errCode === "number"
-              ? errCode
-              : 0;
+          code = isValidCode(c)
+            ? c
+            : isValidCode(errCode)
+            ? errCode
+            : 0;
           message = isValidString(b)
             ? b
             : isValidString(errMessage)
@@ -141,5 +139,11 @@ function isValidString(value: unknown): value is string {
 }
 
 function isErrContext(value: unknown): value is { [key: string]: unknown } {
-  return typeof value === "object" && value !== null;
+  return (
+    typeof value === "object" && value !== null && !Array.isArray(value)
+  );
+}
+
+function isValidCode(value: unknown): value is number | string {
+  return typeof value === "number" || typeof value === "string";
 }

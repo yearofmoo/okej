@@ -232,6 +232,40 @@ describe("err()", () => {
     });
   });
 
+  describe("normalization", () => {
+    it("should preserve a string errCode from a passed-in Err object", () => {
+      assertResultEquals(err({ errCode: "BAD_ERROR", errMessage: "nope" }), {
+        errCode: "BAD_ERROR",
+        errMessage: "nope",
+      });
+    });
+
+    it("should allow a string errCode override when passing an Err object", () => {
+      const base = err("fail", 123);
+      assertResultEquals(err(base, "still fail", "NEW_CODE"), {
+        errCode: "NEW_CODE",
+        errMessage: "still fail",
+      });
+    });
+
+    it("should ignore arrays passed as context in the string input branch", () => {
+      const e = err("fail", 1, [1, 2, 3] as unknown as {
+        [key: string]: unknown;
+      });
+      expect(e.errContext).toBeNull();
+    });
+
+    it("should ignore arrays passed as context in the Error input branch", () => {
+      const e = err(
+        new Error("x"),
+        "msg",
+        1,
+        [1, 2, 3] as unknown as { [key: string]: unknown },
+      );
+      expect(e.errContext).toBeNull();
+    });
+  });
+
   describe("stack", () => {
     it("should attach a stack when no exception is provided", () => {
       const e = err("fail");
